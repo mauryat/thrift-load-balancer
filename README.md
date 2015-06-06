@@ -1,1 +1,1 @@
-# thrift-load-balancher
+# thrift-load-balancer
