@@ -1,0 +1,83 @@
+<project name="loadbalancer" default="load-balancer" basedir=".">
+
+  <description>Thrift Load Balancer</description>
+
+  <property name="src" location="src" />
+  <property name="gen" location="gen-java" />
+  <property name="build" location="build" />
+
+  <path id="libs.classpath">
+    <fileset dir="./thrift-0.9.2/lib/java/build">
+      <include name="*.jar" />
+      <exclude name="-test.jar" />
+    </fileset>
+    <fileset dir="./thrift-0.9.2/lib/java/build/lib">
+      <include name="*.jar" />
+    </fileset>
+  </path>
+  <path id="build.classpath">
+    <path refid="libs.classpath" />
+    <pathelement path="${gen}" />
+  </path>
+  <path id="loadbalancer.classpath">
+    <path refid="build.classpath" />
+    <pathelement path="${build}" />
+    <pathelement path="load-balancer.jar" />
+  </path>
+  
+  <target name="init">
+    <tstamp />
+    <mkdir dir="${build}"/>
+    <mkdir dir="${build}/log"/>
+  </target>
+
+  <target name="compile" depends="init, generate">
+    <javac srcdir="${gen}" destdir="${build}" classpathref="libs.classpath" />
+    <javac srcdir="${src}" destdir="${build}" classpathref="build.classpath" />
+  </target>
+
+  <target name="test" depends="load-balancer" />
+
+  <target name="load-balancer" description="Run the load-balancer" depends="compile">
+    <jar jarfile="load-balancer.jar" basedir="${build}"/>
+    <parallel>
+      <java classname="Server" fork="true" timeout="10000"
+        classpathref="loadbalancer.classpath" failonerror="false" output="${build}/log/load-balancer.log">
+      </java>
+      <sequential>
+        <sleep seconds="2"/>
+        <echo>load balancer client:</echo>
+        <java classname="Client"
+          classpathref="loadbalancer.classpath" failonerror="true">
+        </java>
+      </sequential>
+    </parallel>
+  </target>
+
+  <target name="generate">
+    <!-- Generate the thrift gen-java source -->
+    <exec executable="./thrift-0.9.2/compiler/cpp/thrift" failonerror="true">
+      <arg line="--gen java -r  ./load-balancer.thrift"/>
+    </exec>
+  </target>
+
+  <target name="loadbalancerclient" description="Run a load balancer client" depends="compile">
+    <echo>load balancer client:</echo>
+    <java classname="Client"
+      classpathref="loadbalancer.classpath" failonerror="true">
+    </java>
+  </target>
+
+  <target name="loadbalancerserver" description="Run a load balancer server" depends="compile">
+      <java classname="Server" fork="true"
+        classpathref="loadbalancer.classpath" failonerror="false" output="${build}/log/load-balancer.log">
+      </java>
+  </target>
+
+  <target name="clean">
+    <delete dir="${build}" />
+    <delete dir="${gen}"/>
+    <delete file="load-balancer.jar" />
+  </target>
+
+</project>
