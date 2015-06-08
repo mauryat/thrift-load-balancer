@@ -1,0 +1,6 @@
+build/
+thrift-0.9.2/
+gen-java/
+load-balancer.jar
+*.swp
+
