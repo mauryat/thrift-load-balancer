@@ -43,6 +43,7 @@
     <parallel>
       <java classname="Server" fork="true" timeout="10000"
         classpathref="loadbalancer.classpath" failonerror="false" output="${build}/log/load-balancer.log">
+        <arg line="A"/>
       </java>
       <sequential>
         <sleep seconds="2"/>

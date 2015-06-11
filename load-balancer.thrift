@@ -9,6 +9,8 @@ exception InvalidOperation {
 
 service LoadBalancer extends shared.SharedService {
 
-   void invokeLoadBalancer() // any exception?
+   void offLoad(), // any exception?
+
+   void load(1:string str)
 
 }

@@ -13,18 +13,26 @@ import shared.*;
 
 public class Server {
 
+  public static String fileName;
+  public static int portNum;
+  public static int peerPortNum;
+
   public static LoadBalancerHandler handler;
 
   public static LoadBalancer.Processor processor;
 
   public static void main(String [] args) {
     try {
+      fileName = args[0]; // write validation code here
+      portNum = Integer.parseInt(args[1]);
+      peerPortNum = Integer.parseInt(args[2]);
+
       handler = new LoadBalancerHandler();
       processor = new LoadBalancer.Processor(handler);
 
       Runnable simple = new Runnable() {
         public void run() {
-          simple(processor);
+          simple(processor, portNum);
         }
       };      
 
@@ -34,9 +42,9 @@ public class Server {
     }
   }
 
-  public static void simple(LoadBalancer.Processor processor) {
+  public static void simple(LoadBalancer.Processor processor, int portNum) {
     try {
-      TServerTransport serverTransport = new TServerSocket(9090);
+      TServerTransport serverTransport = new TServerSocket(portNum);
       TServer server = new TSimpleServer(new Args(serverTransport).processor(processor));
 
       System.out.println("Starting the simple server...");

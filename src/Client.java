@@ -31,8 +31,8 @@ public class Client {
 
   private static void perform(LoadBalancer.Client client) throws TException
   {
-    client.invokeLoadBalancer();
-    System.out.println("invokeLoadBalancer()");
+    client.offLoad();
+    System.out.println("offLoad()");
   }
 
 }
