@@ -29,6 +29,50 @@ public class LoadBalancerHandler implements LoadBalancer.Iface {
 
     System.out.println(str);
     // prepend to b.txt
+    // write to new file
+    PrintWriter pout = null;
+    try {
+      pout = new PrintWriter("temp.txt");
+      pout.println(str);
+    } catch(IOException e) {
+      e.printStackTrace();
+    } finally {
+      pout.close();
+    }
+
+    // append from b.txt to temp.txt and delete b.txt
+    try {
+		String source = Server.fileName;
+		String dest = "temp.txt";
+ 
+		File fin = new File(source);
+		FileInputStream fis = new FileInputStream(fin);
+		BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+ 
+		FileWriter fstream = new FileWriter(dest, true);
+		BufferedWriter out = new BufferedWriter(fstream);
+ 
+		String aLine = null;
+		while ((aLine = in.readLine()) != null) {
+			//Process each line and add output to Dest.txt file
+			out.write(aLine);
+			out.newLine();
+		}
+
+                // delete b.txt
+                fin.delete();
+ 
+		// do not forget to close the buffer reader
+		in.close();
+ 
+		// close buffer writer
+		out.close();
+
+                // rename temp.txt to b.txt
+                new File("temp.txt").renameTo(new File(Server.fileName)); 
+    } catch(IOException e) {
+      e.printStackTrace();
+    }
   }
 
   // client to server connection to invoke load() method
