@@ -102,7 +102,7 @@ public static String tail2( File file, int lines) {
     java.io.RandomAccessFile fileHandler = null;
     try {
         fileHandler = 
-            new java.io.RandomAccessFile( file, "r" );
+            new java.io.RandomAccessFile( file, "rw" );
         long fileLength = fileHandler.length() - 1;
         StringBuilder sb = new StringBuilder();
         int line = 0;
@@ -127,6 +127,10 @@ public static String tail2( File file, int lines) {
         }
 
         String lastLine = sb.reverse().toString();
+
+        // truncate the file
+        fileHandler.setLength(fileLength - lastLine.length());
+
         return lastLine;
     } catch( java.io.FileNotFoundException e ) {
         e.printStackTrace();
