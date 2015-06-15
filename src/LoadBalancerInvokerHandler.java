@@ -18,14 +18,14 @@ public class LoadBalancerInvokerHandler implements LoadBalancerInvoker.Iface
     System.out.println ("offLoad()");
     System.out.println (Server.fileName);
     System.out.println (Server.portNum);
-    String str = tail2 (new File (Server.fileName), 10);
+    String str = removeTail (new File (Server.fileName), 10);
     System.out.println (str);
 
-    sendToBackupServer (str);
+    sendToSecondaryServer (str);
   }
 
   // client to server connection to invoke load() method
-  private void sendToBackupServer (String str)
+  private void sendToSecondaryServer (String str)
   {
     try
     {
@@ -45,7 +45,7 @@ public class LoadBalancerInvokerHandler implements LoadBalancerInvoker.Iface
     }
   }
 
-  public static String tail2 (File file, int lines)
+  public static String removeTail (File file, int lines)
   {
     java.io.RandomAccessFile fileHandler = null;
     try
