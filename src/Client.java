@@ -1,6 +1,5 @@
 // Generated code
 import loadbalancerinvoker.*;
-import shared.*;
 
 import org.apache.thrift.TException;
 import org.apache.thrift.transport.TSSLTransportFactory;

@@ -1,5 +1,3 @@
-include "shared.thrift"
-
 namespace java loadbalancerinvoker 
 
 exception InvalidOperation {
@@ -7,7 +5,7 @@ exception InvalidOperation {
   2: string why
 }
 
-service LoadBalancerInvoker extends shared.SharedService {
+service LoadBalancerInvoker {
 
    void offLoad(), // any exception?
 

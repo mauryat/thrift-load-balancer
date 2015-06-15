@@ -6,7 +6,6 @@ import org.apache.thrift.protocol.TProtocol;
 
 // Generated code
 import loadbalancer.*;
-import shared.*;
 
 import java.io.*;
 
@@ -38,12 +37,6 @@ public class LoadBalancerHandler implements LoadBalancer.Iface
       e.printStackTrace ();
     }
 
-  }
-
-  public SharedStruct getStruct (int key)
-  {
-    System.out.println ("getStruct(" + key + ")");
-    return null;
   }
 
 }

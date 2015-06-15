@@ -7,7 +7,6 @@ import org.apache.thrift.protocol.TProtocol;
 // Generated code
 import loadbalancerinvoker.*;
 import loadbalancer.*;
-import shared.*;
 
 import java.io.*;
 
@@ -110,12 +109,6 @@ public class LoadBalancerInvokerHandler implements LoadBalancerInvoker.Iface
       {
       }
     }
-  }
-
-  public SharedStruct getStruct (int key)
-  {
-    System.out.println ("getStruct(" + key + ")");
-    return null;
   }
 
 }

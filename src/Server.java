@@ -10,7 +10,6 @@ import org.apache.thrift.transport.TSSLTransportFactory.TSSLTransportParameters;
 // Generated code
 import loadbalancerinvoker.*;
 import loadbalancer.*;
-import shared.*;
 
 public class Server
 {
