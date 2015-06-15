@@ -12,11 +12,17 @@ import java.io.*;
 public class LoadBalancerHandler implements LoadBalancer.Iface
 {
 
+  private Server server;
+
+  public LoadBalancerHandler (Server server) {
+    this.server = server;
+  }
+
   public void load (String str)
   {
     System.out.println ("load()");
-    System.out.println (Server.fileName);
-    System.out.println (Server.portNum);
+    //System.out.println (server.fileName);
+    //System.out.println (server.portNum);
 
     System.out.println (str);
 

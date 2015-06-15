@@ -14,10 +14,10 @@ import loadbalancer.*;
 public class Server
 {
 
-  public static String fileName;
-  public static int portNum;
-  public static int peerPortNum;
-  public static boolean isSecondary;
+  private String fileName;
+  private int portNum;
+  private int peerPortNum;
+  private boolean isSecondary;
 
   public static LoadBalancerInvokerHandler invokerHandler;
   public static LoadBalancerHandler handler;
@@ -25,33 +25,42 @@ public class Server
   public static LoadBalancerInvoker.Processor invokerProcessor;
   public static LoadBalancer.Processor processor;
 
-  public static void main (String[]args)
+  Server (String fileName, int portNum, int peerPortNum, boolean isSecondary) {
+    this.fileName = fileName;
+    this.portNum = portNum;
+    this.peerPortNum = peerPortNum;
+    this.isSecondary = isSecondary;
+  }
+
+  public static void main (String[] args)
   {
     try
     {
-      fileName = args[0];	// write validation code here
+      /* fileName = args[0];	// write validation code here
       portNum = Integer.parseInt (args[1]);
       peerPortNum = Integer.parseInt (args[2]);
-      isSecondary = Boolean.parseBoolean (args[3]);
+      isSecondary = Boolean.parseBoolean (args[3]); */
+
+      final Server server = new Server(args[0], Integer.parseInt(args[1]), Integer.parseInt(args[2]), Boolean.parseBoolean(args[3]));
       Runnable simple = null;
 
-      if (!isSecondary) {
-        invokerHandler = new LoadBalancerInvokerHandler ();
+      if (!server.isSecondary) {
+        invokerHandler = new LoadBalancerInvokerHandler (server);
 	invokerProcessor = new LoadBalancerInvoker.Processor (invokerHandler);
 
 
 	simple = new Runnable () {
 	  public void run () {
-	    simplePrimaryServer (invokerProcessor, portNum);
+	    simplePrimaryServer (invokerProcessor, server.portNum);
           }
 	};
       } else {
-        handler = new LoadBalancerHandler ();
+        handler = new LoadBalancerHandler (server);
 	processor = new LoadBalancer.Processor (handler);
 
         simple = new Runnable () {
           public void run () {
-            simpleSecondaryServer (processor, portNum);
+            simpleSecondaryServer (processor, server.portNum);
           }
 	};
       }
@@ -82,6 +91,15 @@ public static void simpleSecondaryServer (LoadBalancer.Processor processor, int 
     System.out.println ("Starting the simple server...");
     server.serve ();
   } catch (Exception e) {
-    e.printStackTrace ();}
+    e.printStackTrace ();
+  }
+}
+
+  String getFileName() {
+    return fileName;
+  }
+
+  int getPeerPortNum() {
+    return peerPortNum;
   }
 }

@@ -13,12 +13,18 @@ import java.io.*;
 public class LoadBalancerInvokerHandler implements LoadBalancerInvoker.Iface
 {
 
+  private Server server;
+
+  public LoadBalancerInvokerHandler(Server server) {
+    this.server = server;
+  }
+
   public void offLoad ()
   {
     System.out.println ("offLoad()");
-    System.out.println (Server.fileName);
-    System.out.println (Server.portNum);
-    String str = removeTail (new File (Server.fileName), 10);
+    //System.out.println (server.fileName);
+    //System.out.println (server.portNum);
+    String str = removeTail (new File (server.getFileName()), 10);
     System.out.println (str);
 
     sendToSecondaryServer (str);
@@ -30,7 +36,7 @@ public class LoadBalancerInvokerHandler implements LoadBalancerInvoker.Iface
     try
     {
       TTransport transport;
-      transport = new TSocket ("localhost", Server.peerPortNum);
+      transport = new TSocket ("localhost", server.getPeerPortNum());
       transport.open ();
 
       TProtocol protocol = new TBinaryProtocol (transport);
