@@ -60,6 +60,9 @@
     <exec executable="./thrift-0.9.2/compiler/cpp/thrift" failonerror="true">
       <arg line="--gen java -r  ./load-balancer.thrift"/>
     </exec>
+    <exec executable="./thrift-0.9.2/compiler/cpp/thrift" failonerror="true">
+      <arg line="--gen java -r  ./load-balancer-invoker.thrift"/>
+    </exec>
   </target>
 
   <target name="loadbalancerclient" description="Run a load balancer client" depends="compile">

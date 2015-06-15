@@ -1,5 +1,5 @@
 // Generated code
-import loadbalancer.*;
+import loadbalancerinvoker.*;
 import shared.*;
 
 import org.apache.thrift.TException;
@@ -19,7 +19,7 @@ public class Client {
       transport.open();
 
       TProtocol protocol = new  TBinaryProtocol(transport);
-      LoadBalancer.Client client = new LoadBalancer.Client(protocol);
+      LoadBalancerInvoker.Client client = new LoadBalancerInvoker.Client(protocol);
 
       perform(client);
 
@@ -29,7 +29,7 @@ public class Client {
     } 
   }
 
-  private static void perform(LoadBalancer.Client client) throws TException
+  private static void perform(LoadBalancerInvoker.Client client) throws TException
   {
     client.offLoad();
     System.out.println("offLoad()");
