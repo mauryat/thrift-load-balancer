@@ -22,8 +22,6 @@ public class LoadBalancerInvokerHandler implements LoadBalancerInvoker.Iface
   public void offLoad ()
   {
     System.out.println ("offLoad()");
-    //System.out.println (server.fileName);
-    //System.out.println (server.portNum);
     String str = removeTail (new File (server.getFileName()), 10);
     System.out.println (str);
 

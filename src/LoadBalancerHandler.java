@@ -21,8 +21,6 @@ public class LoadBalancerHandler implements LoadBalancer.Iface
   public void load (String str)
   {
     System.out.println ("load()");
-    //System.out.println (server.fileName);
-    //System.out.println (server.portNum);
 
     System.out.println (str);
 

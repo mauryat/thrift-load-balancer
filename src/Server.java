@@ -36,11 +36,6 @@ public class Server
   {
     try
     {
-      /* fileName = args[0];	// write validation code here
-      portNum = Integer.parseInt (args[1]);
-      peerPortNum = Integer.parseInt (args[2]);
-      isSecondary = Boolean.parseBoolean (args[3]); */
-
       final Server server = new Server(args[0], Integer.parseInt(args[1]), Integer.parseInt(args[2]), Boolean.parseBoolean(args[3]));
       Runnable simple = null;
 
