@@ -19,11 +19,11 @@ public class Server
   private int peerPortNum;
   private boolean isSecondary;
 
-  public static LoadBalancerInvokerHandler invokerHandler;
-  public static LoadBalancerHandler handler;
+  private LoadBalancerInvokerHandler invokerHandler;
+  private LoadBalancerHandler handler;
 
-  public static LoadBalancerInvoker.Processor invokerProcessor;
-  public static LoadBalancer.Processor processor;
+  private LoadBalancerInvoker.Processor invokerProcessor;
+  private LoadBalancer.Processor processor;
 
   Server (String fileName, int portNum, int peerPortNum, boolean isSecondary) {
     this.fileName = fileName;
@@ -40,22 +40,22 @@ public class Server
       Runnable simple = null;
 
       if (!server.isSecondary) {
-        invokerHandler = new LoadBalancerInvokerHandler (server);
-	invokerProcessor = new LoadBalancerInvoker.Processor (invokerHandler);
+        server.invokerHandler = new LoadBalancerInvokerHandler (server);
+	server.invokerProcessor = new LoadBalancerInvoker.Processor (server.invokerHandler);
 
 
 	simple = new Runnable () {
 	  public void run () {
-	    simplePrimaryServer (invokerProcessor, server.portNum);
+	    simplePrimaryServer (server.invokerProcessor, server.portNum);
           }
 	};
       } else {
-        handler = new LoadBalancerHandler (server);
-	processor = new LoadBalancer.Processor (handler);
+        server.handler = new LoadBalancerHandler (server);
+	server.processor = new LoadBalancer.Processor (server.handler);
 
         simple = new Runnable () {
           public void run () {
-            simpleSecondaryServer (processor, server.portNum);
+            simpleSecondaryServer (server.processor, server.portNum);
           }
 	};
       }
