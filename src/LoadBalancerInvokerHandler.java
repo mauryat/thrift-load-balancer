@@ -88,7 +88,12 @@ public class LoadBalancerInvokerHandler implements LoadBalancerInvoker.Iface
       String str = sb.toString();
 
       // truncate the file
-      fileHandler.setLength (fileLength - str.length());
+      long truncatedLength = fileLength - str.length ();
+      if (truncatedLength < 0) {
+        fileHandler.setLength (0);
+      } else {
+        fileHandler.setLength (truncatedLength);
+      }
 
       return str;
     }
