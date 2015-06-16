@@ -27,7 +27,7 @@ public class LoadBalancerHandler implements LoadBalancer.Iface
     // append to b.txt
     try
     {
-      String dest = "b.txt";
+      String dest = server.getFileName();
 
       FileWriter fstream = new FileWriter (dest, true);
       BufferedWriter out = new BufferedWriter (fstream);
