@@ -5,13 +5,14 @@
   <property name="src" location="src" />
   <property name="gen" location="gen-java" />
   <property name="build" location="build" />
+  <property name="thrift.home" location="thrift-0.9.2" />
 
   <path id="libs.classpath">
-    <fileset dir="./thrift-0.9.2/lib/java/build">
+    <fileset dir="${thrift.home}/lib/java/build">
       <include name="*.jar" />
       <exclude name="-test.jar" />
     </fileset>
-    <fileset dir="./thrift-0.9.2/lib/java/build/lib">
+    <fileset dir="${thrift.home}/lib/java/build/lib">
       <include name="*.jar" />
     </fileset>
   </path>
@@ -40,6 +41,7 @@
 
   <target name="load-balancer" description="Run the load-balancer" depends="compile">
     <jar jarfile="load-balancer.jar" basedir="${build}"/>
+    <!--
     <parallel>
       <java classname="Server" fork="true" timeout="10000"
         classpathref="loadbalancer.classpath" failonerror="false" output="${build}/log/load-balancer.log">
@@ -53,14 +55,15 @@
         </java>
       </sequential>
     </parallel>
+    -->
   </target>
 
   <target name="generate">
     <!-- Generate the thrift gen-java source -->
-    <exec executable="./thrift-0.9.2/compiler/cpp/thrift" failonerror="true">
+    <exec executable="${thrift.home}/compiler/cpp/thrift" failonerror="true">
       <arg line="--gen java -r  ./load-balancer.thrift"/>
     </exec>
-    <exec executable="./thrift-0.9.2/compiler/cpp/thrift" failonerror="true">
+    <exec executable="${thrift.home}/compiler/cpp/thrift" failonerror="true">
       <arg line="--gen java -r  ./load-balancer-invoker.thrift"/>
     </exec>
   </target>
