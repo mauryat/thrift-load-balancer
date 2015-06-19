@@ -23,6 +23,7 @@ public class LoadBalancerInvokerHandler implements LoadBalancerInvoker.Iface
   {
     System.out.println ("offLoad()");
     String str = Utils.removeTail (new File (server.getFileName()), 10);
+    //String str = Utils.removeTail (server.getFileName());
     System.out.println (str);
 
     sendToSecondaryServer (str);
