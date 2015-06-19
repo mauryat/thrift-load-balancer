@@ -22,7 +22,7 @@ public class LoadBalancerInvokerHandler implements LoadBalancerInvoker.Iface
   public void offLoad ()
   {
     System.out.println ("offLoad()");
-    String str = removeTail (new File (server.getFileName()), 10);
+    String str = Utils.removeTail (new File (server.getFileName()), 10);
     System.out.println (str);
 
     sendToSecondaryServer (str);
@@ -46,77 +46,6 @@ public class LoadBalancerInvokerHandler implements LoadBalancerInvoker.Iface
     } catch (TException x)
     {
       x.printStackTrace ();
-    }
-  }
-
-  public static String removeTail (File file, int lines)
-  {
-    java.io.RandomAccessFile fileHandler = null;
-    try
-    {
-      fileHandler = new java.io.RandomAccessFile (file, "rw");
-      long fileLength = fileHandler.length () - 1;
-      StringBuilder sb = new StringBuilder ();
-      int line = 0;
-
-      for (long filePointer = fileLength; filePointer != -1; filePointer--)
-        {
-          fileHandler.seek (filePointer);
-          int readByte = fileHandler.readByte ();
-
-          if (readByte == 0xA)
-            {
-              if (filePointer < fileLength)
-                {
-                  line = line + 1;
-                }
-            }
-          else if (readByte == 0xD)
-            {
-              if (filePointer < fileLength - 1)
-                {
-                  line = line + 1;
-                }
-            }
-          if (line >= lines)
-            {
-              break;
-            }
-          sb.append ((char) readByte);
-        }
-
-      String str = sb.toString();
-
-      // truncate the file
-      long truncatedLength = fileLength - str.length ();
-      if (truncatedLength < 0) {
-        fileHandler.setLength (0);
-      } else {
-        fileHandler.setLength (truncatedLength);
-      }
-
-      return str;
-    }
-    catch (java.io.FileNotFoundException e)
-    {
-      e.printStackTrace ();
-      return null;
-    }
-    catch (java.io.IOException e)
-    {
-      e.printStackTrace ();
-      return null;
-    }
-    finally
-    {
-      if (fileHandler != null)
-        try
-        {
-          fileHandler.close ();
-        }
-      catch (IOException e)
-      {
-      }
     }
   }
 
