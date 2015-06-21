@@ -7,40 +7,23 @@ import org.apache.thrift.protocol.TProtocol;
 // Generated code
 import loadbalancer.*;
 
-import java.io.*;
-
 public class LoadBalancerHandler implements LoadBalancer.Iface
 {
 
-  private Server server;
+	private Server server;
 
-  public LoadBalancerHandler (Server server) {
-    this.server = server;
-  }
+	public LoadBalancerHandler (Server server) {
+		this.server = server;
+	}
 
-  public void load (String str)
-  {
-    System.out.println ("load()");
+	public void load (String str)
+	{
+		System.out.println ("load()");
 
-    System.out.println (str);
+		System.out.println (str);
 
-    // append to b.txt
-    try
-    {
-      String dest = server.getFileName();
-
-      FileWriter fstream = new FileWriter (dest, true);
-      BufferedWriter out = new BufferedWriter (fstream);
-
-      out.write (str);
-
-      out.close ();
-    }
-    catch (IOException e)
-    {
-      e.printStackTrace ();
-    }
-
-  }
+		Utils.prependStringToFile(str, server.getFileName());
+	}
 
 }
+

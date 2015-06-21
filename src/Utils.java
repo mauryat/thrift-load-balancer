@@ -3,6 +3,62 @@ import java.io.*;
 public class Utils
 {
 
+        public static synchronized void writeStringToFile (String str, String fileName) {
+                PrintWriter pout = null;
+                try {
+                        pout = new PrintWriter(fileName);
+                        pout.println(str);
+                } catch(IOException e) {
+                        e.printStackTrace();
+                } finally {
+                        pout.close();
+                }
+        }
+
+        public static synchronized void appendToFileFromFile (String toFileName, String fromFileName) {
+                try {
+                        String source = fromFileName;
+                        String dest = toFileName;
+
+                        File fin = new File(source);
+                        FileInputStream fis = new FileInputStream(fin);
+                        BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+
+                        FileWriter fstream = new FileWriter(dest, true);
+                        BufferedWriter out = new BufferedWriter(fstream);
+
+                        String aLine = null;
+                        while ((aLine = in.readLine()) != null) {
+                                //Process each line and add output to Dest.txt file
+                                out.write(aLine);
+                                out.newLine();
+                        }
+
+                        in.close();
+                        out.close();
+
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
+        }
+
+        public static synchronized void prependStringToFile (String str, String fileName) {
+                String tempFileName = "temp.txt";
+                writeStringToFile(str, tempFileName);
+
+                appendToFileFromFile (tempFileName, fileName); // append from b.txt to temp.txt
+
+                try {
+                        // delete b.txt
+			new File(fileName).delete();
+
+                        // rename temp.txt to b.txt
+                        new File(tempFileName).renameTo(new File(fileName));
+                } catch(Exception e) {
+                        e.printStackTrace();
+                }
+        }
+
 	public static synchronized String runTailCommand (String fileName)
 	{
 		String tailStr = null;
@@ -35,13 +91,11 @@ public class Utils
 		return sbuilder.toString ();
 	}
 
-	public static synchronized String removeTail (File file, int lines)
+	public static synchronized String removeTail (String fileName)
 	{
-		String tailString = tail (file, lines);
-		//String tailString = runTailCommand (fileName);
+		String tailString = runTailCommand (fileName);
 
-		truncateFile (file, tailString.length ());
-		//truncateFile (new File(fileName), tailString.length ());
+		truncateFile (new File(fileName), tailString.length ());
 
 		return tailString;
 	}
