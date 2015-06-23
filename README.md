@@ -12,7 +12,3 @@ prompt:thrift-load-balancer/build$ java -cp ../thrift-0.9.2/lib/java/build/libth
 prompt:thrift-load-balancer/build$ java -cp ../thrift-0.9.2/lib/java/build/libthrift-0.9.2.jar:.:../thrift-0.9.2/lib/java/build/lib/* Server b.txt 9091 9090 true
 
 prompt:thrift-load-balancer/build$ java -cp ../thrift-0.9.2/lib/java/build/libthrift-0.9.2.jar:.:../thrift-0.9.2/lib/java/build/lib/* Client
-
-##Assumptions
-a.txt should be read in standard order and b.txt should be read in reverse order. As a result of this design choice, the input text file (a.txt) shouldn't grow in size for optimal results. If the input text file is allowed to grow, the new data should be written to the beginning of b.txt during load balancing. This can lead to high memory usage.
-
