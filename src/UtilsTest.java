@@ -30,7 +30,7 @@ public class UtilsTest {
 	}
 
 	public static void prependStringToFileUsingEdTest() {
-		Utils.prependStringToFileUsingEd("hello", "test.txt");
+		Utils.prependStringToFileUsingEd("hello1\nhello2", "test.txt");
 	}
 
 	public static void main (String[] args) {
