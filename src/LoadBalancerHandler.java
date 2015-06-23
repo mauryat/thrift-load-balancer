@@ -22,7 +22,7 @@ public class LoadBalancerHandler implements LoadBalancer.Iface
 
 		System.out.println (str);
 
-		Utils.prependStringToFile(str, server.getFileName());
+		Utils.prependStringToFileUsingEd(str, server.getFileName());
 	}
 
 }
