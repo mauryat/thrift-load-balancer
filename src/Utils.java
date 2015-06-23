@@ -59,6 +59,15 @@ public class Utils
                 }
         }
 
+	public static synchronized void prependStringToFileUsingEd (String str, String fileName) {
+		try {
+			String[] cmdarray = {"/bin/sh", "-c", "echo '0a\n" + str + "\n.\nw' | ed " + fileName}; 	
+			Runtime.getRuntime().exec(cmdarray);
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static synchronized String runTailCommand (String fileName)
 	{
 		String tailStr = null;

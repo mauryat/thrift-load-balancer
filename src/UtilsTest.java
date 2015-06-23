@@ -29,10 +29,15 @@ public class UtilsTest {
 		System.out.println(Utils.removeTail("../build/a.txt"));
 	}
 
+	public static void prependStringToFileUsingEdTest() {
+		Utils.prependStringToFileUsingEd("hello", "test.txt");
+	}
+
 	public static void main (String[] args) {
-		inputStreamToStringTest();
+		/* inputStreamToStringTest();
 		runTailCommandTest();
-		removeTailTest();
+		removeTailTest(); */
+		prependStringToFileUsingEdTest();
 	}
 }
 
